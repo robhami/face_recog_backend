@@ -51,11 +51,13 @@ Then add data to Postman body to act as if it is receiving as if it were the for
 	"password":"cookies" 
 }
 ```
+### Conditional to check entry against database ###
+
 Then write code in server.js:
 ```javascript
 app.post('/signin',(req,res)=>{
-	if(req.body.email === database.users[0].email) &&
-		req.body.password === database.users[0].password)
+	if(req.body.email === database.users[0].email &&
+	req.body.password === database.users[0].password) {
 	res.json('success');
 	} else {
 		res.status(400).json('error logging in');
@@ -64,6 +66,19 @@ app.post('/signin',(req,res)=>{
 ```
 This will check Postman added user email and password against database. However database data needs to be parsed into JSON first:
 ```
+const express = require('express');
+** const bodyParser = require('body-parser'); **
+
+const app = express();
+
+** app.use(bodyParser.json()); **
+
+```
+Then test in Postman and it will return 'success'. 
+
+Could do for loop through but will be unnecessary once proper database used. 
+
+### Register ###
 
 
 
