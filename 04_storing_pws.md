@@ -35,6 +35,7 @@ Add to top:
 ```
 const bcrypt = require('bcrypt-nodejs');
 ```
+Remove passwords from users. 
 Then add hash function from import bcrypt code to register but change password "bacon" to password: 
 
 ```
@@ -66,7 +67,34 @@ Again:
 $2a$10$TKttvj3RGX/.0Gz2qzyYjOIOS9bmEm.4mZTs1xfJW7IbaacWlJw3m
 
 ### using hashes signin ###
-
+Change database as follows to add login value and remove passwords: 
+```
+const database ={
+	users: [
+		{id: '123', 
+		name:'John', 
+		email:'john@gmail.com', 
+		// password:'cookies', 
+		entries:0, 
+		joined: new Date()
+		},
+		{id: '124', 
+		name:'Sally', 
+		email:'sally@gmail.com', 
+		// password:'bannanas', 
+		entries:0, 
+		joined: new Date()
+		}
+	],
+	login: [
+		{
+			id:'987',
+			has:'',
+			email: 'john@gmail.com'
+		}
+	]
+}
+```
 add following code to signin section using hash values:
 ```
 app.post('/signin',(req,res)=>{
