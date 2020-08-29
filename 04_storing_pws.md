@@ -27,7 +27,10 @@ bcrypt.compare("bacon", hash, function(err, res) {
 bcrypt.compare("veggies", hash, function(err, res) {
     // res = false
 });
+
+
 ```
+### using hashes registering ###
 Add to top: 
 ```
 const bcrypt = require('bcrypt-nodejs');
@@ -61,6 +64,8 @@ $2a$10$7vGlipFY8OlzeNVRfu4BL.y23Q61Hpj4AGiV35gL1JraJPB7pk5AS
 
 Again: 
 $2a$10$TKttvj3RGX/.0Gz2qzyYjOIOS9bmEm.4mZTs1xfJW7IbaacWlJw3m
+
+### using hashes signin ###
 
 add following code to signin section using hash values:
 ```
