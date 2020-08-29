@@ -80,5 +80,83 @@ Could do for loop through but will be unnecessary once proper database used.
 
 ### Register ###
 
+Add to Postman: 
 
+```
+{
+	"email":"ann@gmail.com", 
+	"password":"apples",
+    "name":"Ann"
+
+}
+```
+
+Then create this code (note destrcturing used to get values. Also values that will be filled have no parenthesis and just list property that will be replace with value from Postman): 
+```
+app.post('/register',(req,res)=>{
+	const {email, name, password} =req.body;
+	database.users.push({
+		id: '125', 
+		name: name, 
+		email: email, 
+		password:password, 
+		entries:0, 
+		joined: new Date()
+	})
+	res.json(database.users[database.users.length-1]);
+})
+
+```
+
+This will return in Postman response pane: 
+
+```
+{
+    "id": "125",
+    "name": "Ann",
+    "email": "ann@gmail.com",
+    "password": "apples",
+    "entries": 0,
+    "joined": "2020-08-29T06:12:40.502Z"
+}
+```
+To get list of all users, change get request that responded with "this is working" to respond with database.users: 
+```
+app.get('/' ,(req, res)=>{
+	res.send(database.users);
+
+})
+```
+This return all users except Ann who was just added: 
+```
+[
+    {
+        "id": "123",
+        "name": "John",
+        "email": "john@gmail.com",
+        "password": "cookies",
+        "entries": 0,
+        "joined": "2020-08-29T06:15:25.507Z"
+    },
+    {
+        "id": "124",
+        "name": "Sally",
+        "email": "sally@gmail.com",
+        "password": "bannanas",
+        "entries": 0,
+        "joined": "2020-08-29T06:15:25.507Z"
+    }
+]
+
+```
+If redo post register and get users then Anne appears. This is because changed root route to include database.users. i.e. 
+```
+app.get('/' ,(req, res)=>{
+	res.send(database.users);
+
+})
+```
+
+
+So nodemon server had to restart. Everytime we restart variable assignments get rerun so database just initiates with 2 users. So we need a database. 
 
