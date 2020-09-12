@@ -170,4 +170,33 @@ onSubmitSignIn = () => {
 
 export default Register;
 ```
+Add text in *** tags below to App.js:
+```
+ <FaceRecognition box={box} imageUrl={imageUrl}/>
+           </div>
+           : (
+              route === 'signin' 
+              ? <SignIn onRouteChange={this.onRouteChange}/>
+              : <Register *** loadUser={this.loadUser} *** onRouteChange={this.onRouteChange}/>
+            )       
+        }
+      </div>
+      
+```
+Need to remove password from server.js:
+```
+app.post('/register',(req,res)=>{
+	const {email, name, password} =req.body;
+	bcrypt.hash(password, null, null, function(err, hash) {
+    	console.log(hash);
+	});
 
+	database.users.push({
+		id: '125', 
+		name: name, 
+		email: email,  
+		entries:0, 
+		joined: new Date()
+	})
+	res.json(database.users[database.users.length-1]);
+})
