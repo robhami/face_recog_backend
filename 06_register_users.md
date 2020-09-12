@@ -64,11 +64,61 @@ class Register extends Component {
 
 export default Register;
 ```
-
-Do destructuring to get our component or 'onRouteChange' from this.props and add onChange call function (e.g. onNameChange) on all the other inputs:
+Create user profile and associated function in App.js: 
 ```
-render(){
-		const { onRouteChange} =this.props;
+class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      input: '',
+      imageUrl: '',
+      box: {},
+      route: 'signin',
+      isSignedIn: false,
+      user:{
+        id: '', 
+        name:'', 
+        email:'', 
+        entries:0, 
+        joined: ''
+      }
+    }
+  };
+
+loadUser = (data) => {
+  this.setState({user:{
+     id: data.id, 
+      name:data.name, 
+      email:data.email, 
+      entries:data.entries, 
+      joined: data.joined
+  }})
+}
+```
+Add onChange call function (e.g. onNameChange) on all the other inputs. Also add onSubmitSignIn function and call that from submit button:
+```
+onSubmitSignIn = () => {
+		fetch('http://localhost:3000/signin', {
+			method: 'post',
+			headers: {'Content-type': 'application/json'},
+			body: JSON.stringify({
+				email: this.state.email,
+				password: this.state.password,
+				name: this.state.name
+			})
+		})
+		.then(response => response.json())
+		.then(user => {
+			if (user) {
+				this.props.loadUser(user)
+				this.props.onRouteChange('home');
+			}
+		})
+		
+	}
+
+	render(){
+		
 		return (
 			<article className="br3 ba b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center">
 			<main className="pa4 black-80">
@@ -81,7 +131,7 @@ render(){
 						type="name" 
 						name="name"  
 						id="name"
-						onChange={onNameChange}
+						onChange={this.onNameChange}
 						/>
 					</div>
 					<div className="mt3">
@@ -90,7 +140,7 @@ render(){
 						type="email" 
 						name="email-address"  
 						id="email-address"
-						onChange={onEmailChange}/>
+						onChange={this.onEmailChange}/>
 					</div>
 					<div className="mv3">
 						<label className="db fw6 lh-copy f6" htmlFor="password">Password</label>
@@ -98,7 +148,26 @@ render(){
 						type="password" 
 						name="password"  
 						id="password"
-						onChange={onPasswordChange}
+						onChange={this.onPasswordChange}
 						/>
 					</div>
- ```
+				</fieldset>
+				<div className="">
+					<input 
+					onClick={this.onSubmitSignIn}
+					className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" 
+					type="submit" 
+					value="Register"/>
+				</div>
+			
+			</div>
+			</main>
+			</article>
+			);
+
+	}
+}
+
+export default Register;
+```
+
