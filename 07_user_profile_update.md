@@ -48,9 +48,6 @@ Finally, in App.js, make sure your state looks like below and you add the loadUs
 
 RH comment: That state stuff all seemed to be in order.
 
-```
-
-
 In server.js change image request to a put because updating user info.
 
 ```
@@ -70,7 +67,7 @@ app.put('/image',(req,res)=>{
 })
 ```
 
-Add the following:
+Add the following to App.js:
 
 ```
 onButtonSubmit = () => {
