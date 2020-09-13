@@ -200,3 +200,16 @@ app.post('/register',(req,res)=>{
 	})
 	res.json(database.users[database.users.length-1]);
 })
+```
+A few changes to get next section to work. First in server.js:
+```
+if(req.body.email === database.users[0].email &&
+	req.body.password === database.users[0].password) {
+		*** res.json(database.users[0]); ***
+		} else {
+			res.status(400).json('error logging in');
+			
+```
+In Signin.js:
+
+To check the response above, we check the users's id to . update the Rank.
